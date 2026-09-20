@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghost & Secret Messenger by EMON KHAN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #10b981; border-radius: 10px; }
+        .glass-panel { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(15px); border: 1px solid rgba(16, 185, 129, 0.4); }
+        .emon-signature {
+            text-shadow: 0 0 10px #10b981, 0 0 20px #06b6d4, 0 0 30px #3b82f6;
+            animation: pulse-glow 1.5s infinite alternate;
+        }
+        @keyframes pulse-glow {
+            from { text-shadow: 0 0 10px #10b981, 0 0 20px #06b6d4; transform: scale(1); }
+            to { text-shadow: 0 0 15px #10b981, 0 0 25px #06b6d4, 0 0 35px #3b82f6; transform: scale(1.02); }
+        }
+        .tab-btn.active { background-color: #10b981; color: #0f172a; font-weight: bold; box-shadow: 0 0 15px rgba(16,185,129,0.5); }
+    </style>
+</head>
+<body class="bg-[#0f172a] text-gray-100 min-h-screen p-4 md:p-8 flex flex-col items-center justify-center font-sans">
+
+    <div class="max-w-xl w-full glass-panel p-6 md:p-8 rounded-3xl shadow-[0_0_80px_rgba(16,185,129,0.2)] space-y-6 relative overflow-hidden">
+        
+        <!-- Glowing Effects -->
+        <div class="absolute -top-20 -left-20 w-48 h-48 bg-emerald-600 rounded-full blur-[100px] opacity-30"></div>
+        <div class="absolute -bottom-20 -right-20 w-48 h-48 bg-cyan-600 rounded-full blur-[100px] opacity-30"></div>
+
+        <!-- Header & Signature -->
+        <div class="text-center border-b border-slate-700/80 pb-5 relative z-10">
+            <h2 class="text-xs text-emerald-400 font-bold uppercase tracking-[0.3em] mb-2">Developed By</h2>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-white emon-signature mb-3 tracking-wider">
+                ꧁༒☬ 𝓔𝓜𝓞𝓝 𝓚𝓗𝓐𝓝 ☬༒꧂
+            </h1>
+            <p class="text-[11px] text-gray-400 uppercase tracking-widest font-bold">
+                👻 Ghost & Secret Messenger Hub 🔓
+            </p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="grid grid-cols-3 gap-2 bg-slate-900/90 p-1.5 rounded-xl border border-slate-700 relative z-10">
+            <button onclick="switchTab('cipher')" id="tab-cipher" class="tab-btn active py-2.5 rounded-lg text-xs transition uppercase tracking-wider">🐼 ইমোজি কোড</button>
+            <button onclick="switchTab('ghost')" id="tab-ghost" class="tab-btn py-2.5 rounded-lg text-xs transition uppercase tracking-wider text-gray-300">👻 অদৃশ্য মেসেজ</button>
+            <button onclick="switchTab('pin')" id="tab-pin" class="tab-btn py-2.5 rounded-lg text-xs transition uppercase tracking-wider text-gray-300">🔐 পিন লক</button>
+        </div>
+
+        <!-- TAB 1: Emoji Cipher -->
+        <div id="content-cipher" class="space-y-4 relative z-10">
+            <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800 text-xs text-emerald-300 leading-relaxed">
+                💡 <b>ইমোজি সাইফার:</b> সাধারণ লেখাকে সিক্রেট ইমোজিতে রূপান্তর করুন এবং ডিকোড করুন!
+            </div>
+            <div>
+                <label class="text-xs font-bold text-emerald-300 uppercase block mb-1.5">আপনার মেসেজ বা কোড দিন:</label>
+                <textarea id="cipherInput" rows="3" placeholder="এখানে মেসেজ বা ইমোজি কোড পেস্ট করুন..." class="w-full bg-[#1e293b] border border-slate-600 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-emerald-500"></textarea>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="encodeEmoji()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-emerald-600/30">🔒 এনকোড (ইমোজি)</button>
+                <button onclick="decodeEmoji()" class="flex-1 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-cyan-600/30">🔓 ডিকোড (পড়ুন)</button>
+            </div>
+            <div>
+                <label class="text-xs font-bold text-emerald-300 uppercase block mb-1.5">ফলাফল:</label>
+                <textarea id="cipherOutput" rows="3" readonly placeholder="ফলাফল এখানে আসবে..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-emerald-400 focus:outline-none custom-scrollbar cursor-pointer" onclick="copyResult('cipherOutput')"></textarea>
+            </div>
+        </div>
+
+        <!-- TAB 2: Ghost Text -->
+        <div id="content-ghost" class="space-y-4 relative z-10 hidden">
+            <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800 text-xs text-emerald-300 leading-relaxed">
+                👻 <b>অদৃশ্য মেসেজ:</b> মেসেঞ্জারে পাঠানোর জন্য বিশাল ফাঁকা (Blank) স্পেস জেনারেট করুন!
+            </div>
+            <div>
+                <label class="text-xs font-bold text-emerald-300 uppercase block mb-1.5">ফাঁকা সাইজ সিলেক্ট করুন:</label>
+                <select id="ghostSize" class="w-full bg-[#1e293b] border border-slate-600 rounded-xl p-3 text-sm text-emerald-400 focus:outline-none">
+                    <option value="50">ছোট সাইজ (৫০ স্পেস)</option>
+                    <option value="500" selected>বড় সাইজ (৫০০ স্পেস)</option>
+                    <option value="2000">বিশাল সাইজ (২০০০ স্পেস)</option>
+                </select>
+            </div>
+            <button onclick="generateGhost()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition shadow-lg shadow-emerald-600/30">👻 ফাঁকা মেসেজ তৈরি করুন</button>
+            <div>
+                <label class="text-xs font-bold text-emerald-300 uppercase block mb-1.5">কপি করার জন্য বক্স:</label>
+                <textarea id="ghostOutput" rows="3" readonly placeholder="ক্লিক করে কপি করুন..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-emerald-400 focus:outline-none cursor-pointer" onclick="copyResult('ghostOutput')"></textarea>
+            </div>
+        </div>
+
+        <!-- TAB 3: PIN Locked Message -->
+        <div id="content-pin" class="space-y-4 relative z-10 hidden">
+            <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800 text-xs text-emerald-300 leading-relaxed">
+                🔐 <b>পিন লক মেসেজ:</b> সিক্রেট মেসেজ লিখে পাসওয়ার্ড সেট করুন। বন্ধু শুধু পাসওয়ার্ড দিলেই পড়তে পারবে!
+            </div>
+            <div>
+                <label class="text-xs font-bold text-emerald-300 uppercase block mb-1">গোপন মেসেজ:</label>
+                <input type="text" id="lockMessage" placeholder="যেমন: আমাদের গোপন মিটিং tonight!" class="w-full bg-[#1e293b] border border-slate-600 rounded-xl p-3 text-sm text-white focus:outline-none">
+            </div>
+            <div>
+                <label class="text-xs font-bold text-emerald-300 uppercase block mb-1">৪ ডিজিটের পিন (সংখ্যা):</label>
+                <input type="password" id="lockPin" placeholder="যেমন: 1234" maxlength="4" class="w-full bg-[#1e293b] border border-slate-600 rounded-xl p-3 text-sm text-white focus:outline-none">
+            </div>
+            <button onclick="lockMsg()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider transition shadow-lg">🔒 লক করুন ও কোড বানান</button>
+            
+            <div class="pt-2 border-t border-slate-800">
+                <label class="text-xs font-bold text-emerald-300 uppercase block mb-1">লক খোলা (আনলক):</label>
+                <input type="text" id="unlockCodeInput" placeholder="শেয়ার করা কোড এখানে দিন..." class="w-full bg-[#1e293b] border border-slate-600 rounded-xl p-3 text-sm text-white focus:outline-none mb-2">
+                <input type="password" id="unlockPinInput" placeholder="পিন নম্বর দিন..." maxlength="4" class="w-full bg-[#1e293b] border border-slate-600 rounded-xl p-3 text-sm text-white focus:outline-none mb-2">
+                <button onclick="unlockMsg()" class="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold py-3 rounded-xl text-xs uppercase tracking-wider transition">🔓 আনলক করে পড়ুন</button>
+            </div>
+            <div>
+                <textarea id="pinOutput" rows="2" readonly placeholder="লকড রেজাল্ট এখানে আসবে..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-emerald-400 focus:outline-none cursor-pointer" onclick="copyResult('pinOutput')"></textarea>
+            </div>
+        </div>
+
+        <div class="text-center text-[10px] text-gray-500 pt-2 uppercase tracking-widest relative z-10 font-bold">
+            © 2026 Emon Khan • Secret Hub
+        </div>
+
+    </div>
+
+    <!-- Script Engine -->
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active', 'text-slate-950', 'font-bold'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.add('text-gray-300'));
+            
+            document.getElementById('content-cipher').classList.add('hidden');
+            document.getElementById('content-ghost').classList.add('hidden');
+            document.getElementById('content-pin').classList.add('hidden');
+            
+            document.getElementById('content-' + tab).classList.remove('hidden');
+            const activeBtn = document.getElementById('tab-' + tab);
+            activeBtn.classList.add('active', 'text-slate-950', 'font-bold');
+            activeBtn.classList.remove('text-gray-300');
+        }
+
+        // Emoji Cipher Engine
+        const emoticons = ['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😛','😝','😜','🤪','🤨','🧐','🤓','😎','🤩','🥳','😏','😒','😞','😔','😟','😕','🙁','☹️','😣','😖','😫','😩','🥺','😢','😭','😤','😠','😡','🤬','🤯','😳','🥵','🥶','😱','😨','😰','😥','😓','🤗','🤔','🤭','🤫','🤥','😶','😐','😑','😬','🙄','😯','😦','😧','ﻭ','🤤','😴','🤧','😷','🤒','🤕','🤑','🤠','😈','👿','👹','👺','🤡','💩','👻','💀','☠️','👽','👾','ロボ','🎃','😺','😸','😹','😻','😼','😽','🙀','😿','😾'];
+
+        function encodeEmoji() {
+            const text = document.getElementById('cipherInput').value;
+            if(!text) { alert("কিছু টেক্সট লিখুন!"); return; }
+            let encoded = btoa(encodeURIComponent(text)).split('').map(char => {
+                let code = char.charCodeAt(0);
+                return emoticons[code % emoticons.length] + char;
+            }).join('');
+            document.getElementById('cipherOutput').value = "🔒[EMON-SECRET] " + encoded;
+        }
+
+        function decodeEmoji() {
+            let text = document.getElementById('cipherInput').value;
+            if(!text) { alert("কোড পেস্ট করুন!"); return; }
+            try {
+                if(text.startsWith("🔒[EMON-SECRET] ")) text = text.replace("🔒[EMON-SECRET] ", "");
+                let clean = "";
+                for(let i=0; i<text.length; i++) {
+                    if(text.codePointAt(i) > 127) {
+                        // skip emoji
+                        if(text.codePointAt(i) > 0xffff) i++; 
+                    } else {
+                        clean += text[i];
+                    }
+                }
+                let decoded = decodeURIComponent(atob(clean));
+                document.getElementById('cipherOutput').value = decoded;
+            } catch(e) {
+                alert("ভুল বা ইনভ্যালিড কোড!");
+            }
+        }
+
+        // Ghost Text
+        function generateGhost() {
+            const size = document.getElementById('ghostSize').value;
+            const ghost = "ᅠ ".repeat(size);
+            document.getElementById('ghostOutput').value = ghost;
+            alert("ফাঁকা মেসেজ তৈরি হয়েছে! বক্সে ক্লিক করে কপি করুন।");
+        }
+
+        // PIN Lock
+        function lockMsg() {
+            const msg = document.getElementById('lockMessage').value;
+            const pin = document.getElementById('lockPin').value;
+            if(!msg || !pin || pin.length !== 4) { alert("সঠিক মেসেজ এবং ৪ ডিজিটের পিন দিন!"); return; }
+            
+            const encrypted = btoa(JSON.stringify({m: msg, p: pin}));
+            document.getElementById('pinOutput').value = "🔐[LOCKED-MSG] " + encrypted;
+            alert("লক করা হয়েছে! কোডটি কপি করে শেয়ার করুন।");
+        }
+
+        function unlockMsg() {
+            let code = document.getElementById('unlockCodeInput').value;
+            const pin = document.getElementById('unlockPinInput').value;
+            if(!code || !pin) { alert("কোড এবং পিন দিন!"); return; }
+            
+            try {
+                if(code.startsWith("🔐[LOCKED-MSG] ")) code = code.replace("🔐[LOCKED-MSG] ", "");
+                const data = JSON.parse(atob(code));
+                if(data.p === pin) {
+                    document.getElementById('pinOutput').value = "🔓 আসল মেসেজ: " + data.m;
+                } else {
+                    alert("ভুল পিন নম্বর! এক্সেস ডিনাইড।");
+                }
+            } catch(e) {
+                alert("ভুল কোড!");
+            }
+        }
+
+        function copyResult(elementId) {
+            const box = document.getElementById(elementId);
+            box.select();
+            document.execCommand('copy');
+            alert("সফলভাবে কপি করা হয়েছে! ✅");
+        }
+    </script>
+</body>
+</html>
